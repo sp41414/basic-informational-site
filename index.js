@@ -4,20 +4,26 @@ import fs from "node:fs"
 const port = 9000;
 
 const server = http.createServer((req, res) => {
+	let content;
 	switch (req.url) {
 		case "/":
-			console.log("index.html");
+			content = "./src/index.html"
 			break;
 		case "/about":
-			console.log("about.html");
+			content = "./src/about.html"
 			break;
 		case "/contact":
-			console.log("contact-me.html");
+			content = "./src/contact-me.html"
 			break;
 		default:
-			console.log("404.html");
+			content = "./src/404.html"
 			break;
 	}
+
+	fs.readFile(content, (err, data) => {
+		if (err) return console.error(err)
+		res.end(data)
+	})
 });
 
 server.listen(port);
